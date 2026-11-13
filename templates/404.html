@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>404 - Page Not Found | Astraflint Technology</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #080b18;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .error-box {
+            max-width: 550px;
+            width: 100%;
+            text-align: center;
+            background: #11172b;
+            border: 1px solid #343052;
+            border-radius: 15px;
+            padding: 45px 30px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            color: #b99aff;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: 85px;
+            color: #a77bff;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 15px;
+            color: #c5a5ff;
+        }
+
+        p {
+            color: #b5b8c9;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .home-btn {
+            display: inline-block;
+            background: linear-gradient(90deg, #7650d8, #a16bea);
+            color: white;
+            text-decoration: none;
+            padding: 13px 28px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .home-btn:hover {
+            opacity: 0.9;
+        }
+
+        @media(max-width: 500px) {
+            h1 {
+                font-size: 65px;
+            }
+
+            h2 {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="error-box">
+
+        <div class="logo">ASTRAFLINT.</div>
+
+        <h1>404</h1>
+
+        <h2>Oops! Page Not Found</h2>
+
+        <p>
+            The page you are looking for might have been removed,
+            had its name changed, or is temporarily unavailable.
+        </p>
+
+       <a href="{{ url_for('Home') }}" class="home-btn">
+            Back to Home
+        </a>
+
+    </div>
+
+</body>
+</html>

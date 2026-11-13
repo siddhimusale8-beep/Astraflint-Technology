@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ title }} | Astraflint</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #080b18;
+            color: white;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #11172b;
+            border: 1px solid #493080;
+            border-radius: 15px;
+        }
+
+        h1 {
+            color: #c4b5fd;
+            margin-bottom: 25px;
+        }
+
+        .detail {
+            padding: 15px;
+            border-bottom: 1px solid #30294b;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        .label {
+            color: #a78bfa;
+            font-weight: bold;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 22px;
+            background: #8b5cf6;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+        }
+
+        a:hover {
+            background: #7040d0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>{{ title }}</h1>
+
+        {% for key in record.keys() %}
+
+        <div class="detail">
+            <span class="label">{{ key.replace('_', ' ').title() }}:</span>
+            <br>
+            {{ record[key] }}
+        </div>
+
+        {% endfor %}
+
+        <a href="{{ url_for('admin') }}">← Back to Dashboard</a>
+
+    </div>
+
+</body>
+</html>

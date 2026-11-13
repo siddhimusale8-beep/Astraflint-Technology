@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship Application | Astraflint Technology</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #080b18;
+            color: white;
+            min-height: 100vh;
+            padding: 35px 15px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            color: #b99aff;
+            font-size: 25px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .heading h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: #c5a5ff;
+        }
+
+        .heading p {
+            color: #b5b8c9;
+            font-size: 14px;
+        }
+
+        .form-box {
+            background: #11172b;
+            border: 1px solid #343052;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.3);
+        }
+
+        .form-title {
+            font-size: 20px;
+            color: #c5a5ff;
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 14px;
+            color: #e2dcf5;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 13px;
+            background: #090f20;
+            border: 1px solid #393954;
+            border-radius: 7px;
+            color: white;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #a77bff;
+        }
+
+        select option {
+            background: #11172b;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 25px;
+            background: linear-gradient(90deg, #7650d8, #a16bea);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #c5a5ff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        @media(max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .form-box {
+                padding: 20px;
+            }
+
+            .heading h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="heading">
+        <div class="logo">ASTRAFLINT.</div>
+        <h1>Internship Application</h1>
+        <p>Start your professional journey with Astraflint Technology.</p>
+    </div>
+
+    <div class="form-box">
+
+        <h2 class="form-title">Application Details</h2>
+
+        <form action="{{ url_for('internship_form') }}" method="POST">
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Full Name *</label>
+                    <input type="text" name="full_name"
+                           placeholder="Enter your full name" required>
+                </div>
+
+                <div class="field">
+                    <label>Email Address *</label>
+                    <input type="email" name="email"
+                           placeholder="Enter your email" required>
+                </div>
+
+                <div class="field">
+                    <label>Phone Number *</label>
+                    <input type="tel" name="phone"
+                           placeholder="Enter phone number"
+                           pattern="[0-9]{10}" maxlength="10" required>
+                </div>
+
+                <div class="field">
+                    <label>College Name *</label>
+                    <input type="text" name="college"
+                           placeholder="Enter college name" required>
+                </div>
+
+                <div class="field">
+                    <label>Course *</label>
+                    <select name="course" required>
+                        <option value="">Select Course</option>
+                        <option>BCA</option>
+                        <option>BCS</option>
+                        <option>BSc Computer Science</option>
+                        <option>BTech / BE</option>
+                        <option>MCA</option>
+                        <option>MSc Computer Science</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Internship Duration *</label>
+                    <select name="duration" required>
+                        <option value="">Select Duration</option>
+                        <option>1 Month</option>
+                        <option>2 Months</option>
+                        <option>3 Months</option>
+                        <option>6 Months</option>
+                    </select>
+                </div>
+
+                <div class="field full">
+                    <label>Internship Domain *</label>
+                    <select name="domain" required>
+                        <option value="">Select Domain</option>
+                        <option>Web Development</option>
+                        <option>Python Development</option>
+                        <option>Java Development</option>
+                        <option>Data Analytics</option>
+                        <option>Artificial Intelligence</option>
+                        <option>Software Testing</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="field full">
+                    <label>Message (Optional)</label>
+                    <textarea name="message"
+                              placeholder="Tell us about yourself..."></textarea>
+                </div>
+
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Submit Application
+            </button>
+
+        </form>
+
+        <a href="{{ url_for('internships') }}" class="back-link">
+            ← Back to Internships
+        </a>
+
+    </div>
+</div>
+
+</body>
+</html>

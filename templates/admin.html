@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | Astraflint Technology</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #080b18;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        :root {
+            --purple: #a78bfa;
+            --light-purple: #c4b5fd;
+            --dark-card: #11172b;
+            --border: rgba(167, 139, 250, 0.18);
+        }
+
+        .sidebar {
+            width: 245px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #0d1224;
+            border-right: 1px solid var(--border);
+            padding: 30px 20px;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            color: #c4b5fd;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .logo-subtitle {
+            font-size: 11px;
+            color: #9299b2;
+            letter-spacing: 2px;
+            margin-bottom: 45px;
+        }
+
+        .sidebar h3 {
+            font-size: 11px;
+            color: #777f9d;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #c4c9da;
+            text-decoration: none;
+            padding: 14px 13px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: linear-gradient(90deg, #493080, #30245c);
+            color: white;
+        }
+
+        .sidebar .logout {
+            margin-top: 35px;
+            color: #fca5a5;
+        }
+
+        .main-content {
+            margin-left: 245px;
+            padding: 35px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+            color: #ffffff;
+        }
+
+        .topbar h1 span {
+            color: var(--purple);
+        }
+
+        .admin-label {
+            background: #1c2340;
+            border: 1px solid var(--border);
+            color: var(--light-purple);
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 13px;
+        }
+
+        .welcome {
+            background: linear-gradient(120deg, #211b45, #151c35);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .welcome h2 {
+            font-size: 23px;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .welcome p {
+            color: #b7bfd3;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 25px;
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--purple);
+            transform: translateY(-3px);
+        }
+
+        .stat-card p {
+            color: #aab2ca;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card h2 {
+            color: var(--light-purple);
+            font-size: 32px;
+        }
+
+        .section {
+            margin-bottom: 45px;
+            scroll-margin-top: 25px;
+        }
+
+        .section-heading {
+            margin-bottom: 20px;
+        }
+
+        .section-heading h2 {
+            color: #ffffff;
+            font-size: 22px;
+            margin-bottom: 7px;
+        }
+
+        .section-heading p {
+            color: #929bb5;
+            font-size: 13px;
+        }
+
+        .table-container {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 15px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #252044;
+            color: #d8ccff;
+            padding: 15px 13px;
+            text-align: left;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px 13px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            color: #d0d5e5;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        tr:nth-child(even) {
+            background: rgba(255,255,255,0.025);
+        }
+
+        tbody tr:hover {
+            background: rgba(167,139,250,0.09);
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #aab2ca;
+            padding: 25px;
+        }
+
+        /* Action Buttons */
+
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-btn,
+        .delete-btn {
+            display: inline-block;
+            padding: 8px 13px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .view-btn {
+            background: #493080;
+            color: #ffffff;
+        }
+
+        .view-btn:hover {
+            background: #6745a8;
+        }
+
+        .delete-btn {
+            background: #7f2638;
+            color: #ffffff;
+        }
+
+        .delete-btn:hover {
+            background: #b8324d;
+        }
+
+        .footer {
+            text-align: center;
+            color: #777f9d;
+            font-size: 12px;
+            padding: 25px 10px;
+            border-top: 1px solid var(--border);
+            margin-top: 30px;
+        }
+
+        @media (max-width: 850px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 18px;
+            }
+
+            .logo-subtitle {
+                margin-bottom: 20px;
+            }
+
+            .sidebar h3 {
+                display: none;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                margin: 5px 3px;
+                padding: 10px;
+                font-size: 12px;
+            }
+
+            .sidebar .logout {
+                margin-top: 5px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .topbar h1 {
+                font-size: 23px;
+            }
+
+            .welcome h2 {
+                font-size: 19px;
+            }
+
+            .main-content {
+                padding: 15px;
+            }
+            .application-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.application-controls input,
+.application-controls select {
+    padding: 12px;
+    background: #11172b;
+    color: white;
+    border: 1px solid #393954;
+    border-radius: 7px;
+    outline: none;
+}
+
+.application-controls input {
+    flex: 1;
+    min-width: 200px;
+}
+
+.status-select {
+    padding: 7px;
+    background: #11172b;
+    color: white;
+    border: 1px solid #a78bfa;
+    border-radius: 6px;
+}
+
+.update-btn {
+    padding: 8px 12px;
+    background: #493080;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.update-btn:hover {
+    background: #6745a8;
+}
+        }
+
+
+/* Internship Application Status Design */
+
+.status-select {
+    width: 115px;
+    padding: 10px 12px;
+    background: #17152d;
+    color: #d9c5ff;
+    border: 1px solid #9366e8;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.status-select:hover,
+.status-select:focus {
+    border-color: #c4a1ff;
+    box-shadow: 0 0 10px rgba(147, 102, 232, 0.3);
+}
+
+.status-select option {
+    background: #11172b;
+    color: white;
+    padding: 10px;
+}
+
+/* Update Button */
+
+.update-btn {
+    padding: 10px 16px;
+    margin-top: 7px;
+    background: linear-gradient(135deg, #7650d8, #a16bea);
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.update-btn:hover {
+    background: linear-gradient(135deg, #9169ed, #bd8aff);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(142, 92, 230, 0.3);
+}
+
+/* Status Labels */
+
+.status-pending {
+    color: #facc15;
+    background: rgba(250, 204, 21, 0.12);
+}
+
+.status-approved {
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.12);
+}
+
+.status-rejected {
+    color: #fb7185;
+    background: rgba(251, 113, 133, 0.12);
+}
+
+/* Status Badge */
+
+.status-badge {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* Table Improvements */
+
+#applications table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+
+#applications td {
+    padding: 16px 14px;
+    vertical-align: middle;
+}
+
+#applications tbody tr {
+    transition: 0.3s ease;
+}
+
+#applications tbody tr:hover {
+    background: rgba(130, 91, 210, 0.18);
+}
+
+.filter-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.filter-container input,
+.filter-container select {
+    padding: 12px;
+    background: #11172b;
+    color: white;
+    border: 1px solid #a78bfa;
+    border-radius: 8px;
+    outline: none;
+}
+
+.filter-container input {
+    width: 280px;
+}
+
+.filter-container select {
+    cursor: pointer;
+}
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">ASTRAFLINT.</div>
+        <div class="logo-subtitle">TECHNOLOGY</div>
+
+        <h3>MAIN MENU</h3>
+
+        <a href="#dashboard" class="active">▣ Dashboard</a>
+        <a href="#enquiries">✉ Contact Enquiries</a>
+        <a href="#applications">▣ Internship Applications</a>
+        <a href="/">⌂ Back to Website</a>
+        <a href="/admin-logout" class="logout">↪ Logout</a>
+
+    </aside>
+
+
+    <!-- Main Dashboard -->
+
+    <main class="main-content" id="dashboard">
+
+        <div class="topbar">
+
+            <h1>Admin <span>Dashboard</span></h1>
+
+            <div class="admin-label">● Administrator</div>
+
+        </div>
+
+
+        <!-- Welcome Section -->
+
+        <div class="welcome">
+
+            <h2>Welcome to Astraflint Admin Panel</h2>
+
+            <p>
+                Manage your website enquiries and internship applications
+                from one place. Monitor and review all submitted information.
+            </p>
+
+        </div>
+
+
+        <!-- Statistics -->
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <p>Total Contact Enquiries</p>
+                <h2>{{ enquiries|length }}</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Total Internship Applications</p>
+                <h2>{{ applications|length }}</h2>
+            </div>
+
+        </div>
+
+
+        <!-- Contact Enquiries -->
+
+        <section class="section" id="enquiries">
+
+            <div class="section-heading">
+                <h2>Contact Enquiries</h2>
+                <p>View and manage messages submitted through your website.</p>
+            </div>
+           
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Subject</th>
+                            <th>Message</th>
+                            <th>Actions</th>
+                           
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for item in enquiries %}
+
+                        <tr>
+                            <td>{{ item['id'] }}</td>
+                            <td>{{ item['name'] }}</td>
+                            <td>{{ item['email'] }}</td>
+                            <td>{{ item['subject'] }}</td>
+                            <td>{{ item['message'] }}</td>
+
+                            <td>
+                                <div class="action-buttons">
+
+                                    <a class="view-btn"
+                                       href="{{ url_for('view_enquiry', id=item['id']) }}">
+                                        View
+                                    </a>
+
+                                    <form method="POST"
+                                          action="{{ url_for('delete_enquiry', id=item['id']) }}"
+                                          onsubmit="return confirm('Are you sure you want to delete this enquiry?');">
+
+                                        <button type="submit" class="delete-btn">
+                                            Delete
+                                        </button>
+
+                                    </form>
+
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+                            <td colspan="6" class="empty-message">
+                                No enquiries found.
+                                
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- Internship Applications -->
+
+        <section class="section" id="applications">
+
+            <div class="section-heading">
+                <h2>Internship Applications</h2>
+                <p>Review student internship application details.</p>
+            </div>
+
+             <!-- Search and Filter -->
+<div class="filter-container">
+
+    <input type="text"
+           id="applicationSearch"
+           placeholder="Search by name, email, phone...">
+
+    <select id="statusFilter">
+        <option value="All">All Status</option>
+        <option value="Pending">Pending</option>
+        <option value="Approved">Approved</option>
+        <option value="Rejected">Rejected</option>
+    </select>
+
+</div>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>College</th>
+                            <th>Course</th>
+                            <th>Duration</th>
+                            <th>Domain</th>
+                            <th>Applied Date</th>
+                            <th>Status</th>
+                            <th>Update Status</th>
+                            <th>Actions</th>
+                            
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for app in applications %}
+
+                        <tr>
+                            <td>{{ app['id'] }}</td>
+                            <td>{{ app['full_name'] }}</td>
+                            <td>{{ app['email'] }}</td>
+                            <td>{{ app['phone'] }}</td>
+                            <td>{{ app['college'] }}</td>
+                            <td>{{ app['course'] }}</td>
+                            <td>{{ app['internship_duration'] }}</td>
+                            <td>{{ app['domain'] }}</td>
+                            <td>{{ app['created_at'] }}</td>
+
+<td>
+    {% if app['status'] == 'Approved' %}
+        <span class="status-badge status-approved">
+            Approved
+        </span>
+
+    {% elif app['status'] == 'Rejected' %}
+        <span class="status-badge status-rejected">
+            Rejected
+        </span>
+
+    {% else %}
+        <span class="status-badge status-pending">
+            Pending
+        </span>
+    {% endif %}
+</td>
+
+<td>
+    <form method="POST"
+          action="{{ url_for('update_application_status', id=app['id']) }}">
+
+        <select name="status" class="status-select"
+                style="padding:7px; background:#11172b;
+                color:white; border:1px solid #a78bfa;
+                border-radius:5px;">
+
+            <option value="Pending"
+                {% if app['status'] == 'Pending' %}selected{% endif %}>
+                Pending
+            </option>
+
+            <option value="Approved"
+                {% if app['status'] == 'Approved' %}selected{% endif %}>
+                Approved
+            </option>
+
+            <option value="Rejected"
+                {% if app['status'] == 'Rejected' %}selected{% endif %}>
+                Rejected
+            </option>
+
+        </select>
+
+        <button type="submit" class="update-btn">
+            Update
+        </button>
+
+    </form>
+    </td>
+
+                            <td>
+                                <div class="action-buttons">
+
+                                    <a class="view-btn"
+                                       href="{{ url_for('view_application', id=app['id']) }}">
+                                        View
+                                    </a>
+
+                                    <form method="POST"
+                                          action="{{ url_for('delete_application', id=app['id']) }}"
+                                          onsubmit="return confirm('Are you sure you want to delete this application?');">
+
+                                        <button type="submit" class="delete-btn">
+                                            Delete
+                                        </button>
+
+                                    </form>
+
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+                            <td colspan="12" class="empty-message">
+                                No internship applications found.
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- Footer -->
+
+        <footer class="footer">
+            © 2026 Astraflint Technology. All Rights Reserved.
+        </footer>
+
+    </main>
+
+    <script>
+const searchInput = document.getElementById("applicationSearch");
+const statusFilter = document.getElementById("statusFilter");
+
+function filterApplications() {
+
+    const search = searchInput.value.toLowerCase();
+    const status = statusFilter.value;
+
+    const rows = document.querySelectorAll(
+        "#applications tbody tr"
+    );
+
+    rows.forEach(row => {
+
+        const cells = row.querySelectorAll("td");
+
+        if (cells.length < 12) return;
+
+        const text = row.innerText.toLowerCase();
+        const currentStatus = cells[9].innerText.trim();
+
+        const searchMatch = text.includes(search);
+
+        const statusMatch =
+            status === "All" || currentStatus === status;
+
+        row.style.display =
+            searchMatch && statusMatch ? "" : "none";
+
+    });
+}
+
+searchInput.addEventListener("input", filterApplications);
+statusFilter.addEventListener("change", filterApplications);
+</script>
+
+</body>
+</html>
