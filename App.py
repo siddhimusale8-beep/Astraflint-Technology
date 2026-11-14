@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 import sqlite3
+import os
 
 app = Flask(__name__)
 app.secret_key = "change-this-secret-key"
 
 
-# Database Connection
 def get_db_connection():
-    conn = sqlite3.connect("database.db")
+    db_path = os.path.join(app.root_path, "database.db")
+    conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -61,6 +62,7 @@ def create_table():
 
     conn.commit()
     conn.close()
+create_table()
 
 
 # Home Page
